@@ -16,12 +16,14 @@ with open('taxdump.tar.gz.md5', "r") as fh:
 
 
 
-cur_md5 = ""
-with open("taxons", "r") as fh:
-    for line in fh:
-        if line[0:21] == "# MD5 taxdump.tar.gz:":
-            cur_md5 = line[21:].strip()
-            break
+cur_md5 = "!!! no taxons file present !!!"
+if os.path.isfile("taxons"):
+    with open("taxons", "r") as fh:
+        for line in fh:
+            if line[0:21] == "# MD5 taxdump.tar.gz:":
+                cur_md5 = line[21:].strip()
+                break
+
 
 if md5 != cur_md5:
     print("updating to latest taxons: "+cur_md5+" -> " + md5)
@@ -35,14 +37,6 @@ if md5 != cur_md5:
 
         with tarfile.open("taxdump.tar.gz","r:gz") as tar:
             for tarinfo in tar:
-                print(tarinfo.name, "is", tarinfo.size, "bytes in size and is ", end="")
-                if tarinfo.isreg():
-                    print("a regular file.")
-                elif tarinfo.isdir():
-                    print("a directory.")
-                else:
-                    print("something else.")
-                
                 if(tarinfo.name == "names.dmp"):
                     f = tar.extractfile(tarinfo)
                     for line in tqdm(f):
