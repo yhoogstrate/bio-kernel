@@ -16,7 +16,7 @@ with open('taxdump.tar.gz.md5', "r") as fh:
 
 
 
-cur_md5 = "!!! no taxons file present !!!"
+cur_md5 = "  [ !!! no taxons file present !!! ]  "
 if os.path.isfile("taxons"):
     with open("taxons", "r") as fh:
         for line in fh:
