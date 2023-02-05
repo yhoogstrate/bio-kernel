@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
 	{
 		while(n--)
 		{
-			
 			char taxon[256 + 1];
 			taxon[0] = '\0';
 			i = getxattr(namelist[n]->d_name, "user.taxon", taxon, 256);
