@@ -24,10 +24,10 @@ getfattr xattr-test
 int main(int argc, char *argv[])
 {
 	int i;
-	i = setxattr("Makefile", "user.taxon", "9606", 256, 0);
-	printf("i: %i -- errno = %i\n", i, errno);
-	i = setxattr("data/test", "user.taxon", "9606", 256, 0);
-	printf("i: %i -- errno = %i\n", i, errno);
+	//i = setxattr("Makefile", "user.taxon", "9606", 256, 0);
+	//printf("i: %i -- errno = %i\n", i, errno);
+	//i = setxattr("data/test", "user.taxon", "9606", 256, 0);
+	//printf("i: %i -- errno = %i\n", i, errno);
 	
 	
 	
@@ -55,6 +55,8 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
+		int maxfilelen = 20;
+		
 		while(n--)
 		{
 			char taxon[256 + 1];
@@ -63,7 +65,12 @@ int main(int argc, char *argv[])
 			
 			
 			
-			printf("%s\t%s\n",namelist[n]->d_name, taxon);
+			printf("%s",namelist[n]->d_name);
+			for(int k = maxfilelen - strlen(namelist[n]->d_name); k-- ; k>0)
+			{
+				printf(" ");
+			}
+			printf("%s\n",taxon);
 			free(namelist[n]);
 		}
 		

@@ -26,8 +26,8 @@ void usage_chtax()
 	printf("  chtax 9606 hg19.fa\n");
 	printf("  chtax 9606 alignment.bam alignment.bam.bai\n");
 	printf("\n");
-	printf("Removing taxons:\n");
-
+	printf("Taxons can be removed using: rmtax\n");
+	printf("\n");
 	print_footer();
 }
 
@@ -35,6 +35,31 @@ void usage_chtax_help()
 {
 	printf("chtax: missing operand\n");
 	printf("Try 'chtax --help' for more information.\n");
+
+	exit(EXIT_FAILURE);
+}
+
+
+
+
+void usage_rmtax()
+{
+	printf("Usage: rmtax FILE...\n");
+	printf("Remove the taxon of each FILE.\n");
+	printf("\n");
+	printf("Examples:\n");
+	printf("  rmtax alignment.bam alignment.bam.bai\n");
+	printf("\n");
+	printf("Taxons can be set using: chtax\n");
+	printf("\n");
+	
+	print_footer();
+}
+
+void usage_rmtax_help()
+{
+	printf("rmtax: missing operand\n");
+	printf("Try 'rmtax --help' for more information.\n");
 
 	exit(EXIT_FAILURE);
 }
