@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
 			i = getxattr(namelist[k]->d_name, "user.taxon", taxon, 256);
 			
 			
-			
 			printf("%s", namelist[k]->d_name);
 			for(int l = maxfilelen - strlen(namelist[k]->d_name); l > 0; l--)
 			{
@@ -65,8 +64,6 @@ int main(int argc, char *argv[])
 			}
 			printf("%s\n",taxon);
 			free(namelist[k]);
-			
-			//exit(1);
 		}
 		
 		free(namelist);
