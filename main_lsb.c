@@ -58,7 +58,8 @@ int main(int argc, char *argv[])
 			
 			
 			printf("%s", namelist[k]->d_name);
-			for(int l = maxfilelen - strlen(namelist[k]->d_name); l > 0; l--)
+			const int m = strlen(namelist[k]->d_name);
+			for(int l = maxfilelen - m; l > 0; l--)
 			{
 				printf(" ");
 			}
