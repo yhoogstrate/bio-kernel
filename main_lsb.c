@@ -7,28 +7,17 @@
 #include <errno.h>
 
 
+#include "utils.h"
+
 
 extern int alphasort(const void*,const void*);
 
 
-/**
-touch xattr-test
-setfattr -n user.test -v "hello" xattr-test
-getfattr xattr-test
- */
-
-// chattr
-// lsattr .
-// setfattr -n "taxon" -v 9606 data/test
 
 int main(int argc, char *argv[])
 {
 	int i;
-	//i = setxattr("Makefile", "user.taxon", "9606", 256, 0);
-	//printf("i: %i -- errno = %i\n", i, errno);
-	//i = setxattr("data/test", "user.taxon", "9606", 256, 0);
-	//printf("i: %i -- errno = %i\n", i, errno);
-	
+
 	
 	
 	struct dirent **namelist;
@@ -37,6 +26,10 @@ int main(int argc, char *argv[])
 	if(argc < 1)
 	{
 		exit(EXIT_FAILURE);
+	}
+	else if(argc == 2 && (strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0))
+	{
+		usage_lsb();
 	}
 	else if(argc == 1)
 	{
@@ -57,21 +50,21 @@ int main(int argc, char *argv[])
 	{
 		int maxfilelen = 20;
 		
-		while(n--)
+		for(int k =0; k < n; k++)
 		{
 			char taxon[256 + 1];
 			taxon[0] = '\0';
-			i = getxattr(namelist[n]->d_name, "user.taxon", taxon, 256);
+			i = getxattr(namelist[k]->d_name, "user.taxon", taxon, 256);
 			
 			
-			
-			printf("%s",namelist[n]->d_name);
-			for(int k = maxfilelen - strlen(namelist[n]->d_name); k-- ; k>0)
+			printf("%s", namelist[k]->d_name);
+			const int m = strlen(namelist[k]->d_name);
+			for(int l = maxfilelen - m; l > 0; l--)
 			{
 				printf(" ");
 			}
 			printf("%s\n",taxon);
-			free(namelist[n]);
+			free(namelist[k]);
 		}
 		
 		free(namelist);

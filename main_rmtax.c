@@ -31,20 +31,14 @@ int main(int argc, char *argv[])
 	{
 		usage_rmtax_help();
 	}
-	else if(argc == 2)
+	else if(argc == 2 & (strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0))
 	{
-		if((strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0))
-		{
-			usage_rmtax();
-		}
-		else
-		{
-			usage_rmtax_help();
-		}
+		usage_rmtax();
 	}
 	else
 	{
-		for(int i = 1; i < argc; i++){
+		for(int i = 1; i < argc; i++)
+		{
 			rmtax(argv[1]);
 		}
 	}

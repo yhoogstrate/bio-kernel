@@ -8,25 +8,35 @@ src = ['utils.c']
 
 
 
-executable('bio', [src, 'main_bio.c'], 
+executable('bio',
+    [src, 'main_bio.c'],
     include_directories : include_directories('.'),
-    dependencies: [])
+    dependencies: [],
+    install: true)
 
-executable('bio-kerneld', [src, 'main_bio-kerneld.c'], 
+executable('bio-kerneld',
+    [src, 'main_bio-kerneld.c'], 
     include_directories : include_directories('.'),
-    dependencies: [])
+    dependencies: [],
+    install: true)
 
 
 
-executable('lsb', [src, 'main_lsb.c'], 
+executable('lsb',
+    [src, 'main_lsb.c'],
     include_directories : include_directories('.'),
-    dependencies: [])
+    dependencies: [],
+    install: true)
 
-executable('chtax', [src, 'main_chtax.c'], 
+executable('chtax',
+    [src, 'main_chtax.c'], 
     include_directories : include_directories('.'),
-    dependencies: [])
+    dependencies: [],
+    install: true)
 
-executable('rmtax', [src, 'main_rmtax.c'], 
+executable('rmtax',
+    [src, 'main_rmtax.c'], 
     include_directories : include_directories('.'),
-    dependencies: [])
+    dependencies: [],
+    install: true)
 

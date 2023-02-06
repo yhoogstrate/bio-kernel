@@ -4,6 +4,8 @@
 
 void print_footer();
 
+void usage_lsb();
+
 void usage_chtax();
 void usage_chtax_help();
 
