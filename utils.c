@@ -14,6 +14,18 @@ void print_footer()
 	printf("bio-kernel online help: <https://github.com/yhoogstrate/bio-kernel>\n");
 }
 
+void usage_lsb()
+{
+	printf("Usage: lsb [OPTION]... FILE...\n");
+	printf("List files with bio-kernel implemented annotations such as taxon of each FILE.\n");
+	printf("\n");
+	printf("Examples:\n");
+	printf("  lsb\n");
+	printf("  lsb alignment.bam alignment.bam.bai\n");
+	printf("  lsb -h alignment.bam alignment.bam.bai\n");
+	printf("\n");
+	print_footer();
+}
 
 void usage_chtax()
 {
@@ -31,17 +43,6 @@ void usage_chtax()
 	print_footer();
 }
 
-void usage_chtax_help()
-{
-	printf("chtax: missing operand\n");
-	printf("Try 'chtax --help' for more information.\n");
-
-	exit(EXIT_FAILURE);
-}
-
-
-
-
 void usage_rmtax()
 {
 	printf("Usage: rmtax FILE...\n");
@@ -56,6 +57,10 @@ void usage_rmtax()
 	print_footer();
 }
 
+
+
+
+
 void usage_rmtax_help()
 {
 	printf("rmtax: missing operand\n");
@@ -63,3 +68,12 @@ void usage_rmtax_help()
 
 	exit(EXIT_FAILURE);
 }
+
+void usage_chtax_help()
+{
+	printf("chtax: missing operand\n");
+	printf("Try 'chtax --help' for more information.\n");
+
+	exit(EXIT_FAILURE);
+}
+
