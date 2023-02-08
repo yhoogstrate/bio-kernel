@@ -1,5 +1,5 @@
-obj-m := fastafs.o
-fastafs-objs := super.o
+obj-m := biokernel.o
+biokernel-objs := super.o
 
 CFLAGS_super.o := -DDEBUG
 
@@ -16,9 +16,9 @@ clean:
 
 test:
 	sudo dmesg -C
-	sudo insmod fastafs.ko
-	sudo rmmod fastafs.ko
-	/sbin/modinfo fastafs.ko
+	sudo insmod biokernel.ko
+	sudo rmmod biokernel.ko
+	/sbin/modinfo biokernel.ko
 	dmesg
 
 

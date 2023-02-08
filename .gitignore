@@ -1,3 +1,9 @@
 /bio
 build/*
 .venv
+*.cmd
+*.o
+.tmp_versions
+*.order
+*.ko
+*.symvers
