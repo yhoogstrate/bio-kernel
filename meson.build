@@ -5,10 +5,8 @@ project('bio-kernel', 'c',
 
 
 src = ['utils.c']
-src_kerneld = ['fuse.c']
 
 
-fuse = dependency('fuse')
 
 
 
@@ -16,12 +14,6 @@ executable('bio',
     [src, 'main_bio.c'],
     include_directories : include_directories('.'),
     dependencies: [],
-    install: true)
-
-executable('bio-kerneld',
-    [src, src_kerneld, 'main_bio-kerneld.c'], 
-    include_directories : include_directories('.'),
-    dependencies: [fuse],
     install: true)
 
 

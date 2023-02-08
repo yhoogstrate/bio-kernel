@@ -1,18 +1,24 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include <linux/init.h>
+#include <linux/module.h>
 
-
-#include "fuse.h"
-
-
-int main(int argc, char *argv[])
+static int __init biokernel_init(void)
 {
-	// mount to /bio/taxons/
-	// mount to /bio/taxons-loaded/ [only loaded?]
-	// make clever index of db/taxons
-	
-	fuse(NULL);
+	pr_debug("biokernel module loaded\n");
 	
 	return 0;
 }
+
+static void __exit biokernel_exit(void)
+{
+	pr_debug("biokernel module unloaded\n");
+}
+
+
+
+module_init(biokernel_init);
+module_exit(biokernel_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_VERSION("0.01");
+MODULE_AUTHOR("Youri Hoogstate");
 
