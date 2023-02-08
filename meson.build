@@ -7,6 +7,9 @@ project('bio-kernel', 'c',
 src = ['utils.c']
 
 
+fuse = dependency('fuse')
+
+
 
 executable('bio',
     [src, 'main_bio.c'],
@@ -17,7 +20,7 @@ executable('bio',
 executable('bio-kerneld',
     [src, 'main_bio-kerneld.c'], 
     include_directories : include_directories('.'),
-    dependencies: [],
+    dependencies: [fuse],
     install: true)
 
 

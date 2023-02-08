@@ -1,0 +1,3 @@
+
+
+void fuse(int, char *[]);
