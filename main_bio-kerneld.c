@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	// mount to /bio/taxons-loaded/ [only loaded?]
 	// make clever index of db/taxons
 	
-	fuse(argc, argv);
+	fuse(NULL);
 	
 	return 0;
 }

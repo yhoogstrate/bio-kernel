@@ -1,3 +1,15 @@
 
+#ifndef FUSE_H
+#define FUSE_H
 
-void fuse(int, char *[]);
+
+typedef struct fuse_args { 
+    int x;
+} fuse_args;
+
+
+int fuse(fuse_args *args);
+
+
+#endif
+
