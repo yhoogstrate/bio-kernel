@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		int maxfilelen = 20;
+		int maxfilelen = 24;
 		
 		for(int k =0; k < n; k++)
 		{
@@ -63,7 +63,16 @@ int main(int argc, char *argv[])
 			{
 				printf(" ");
 			}
-			printf("%s\n",taxon);
+            
+            if(strlen(taxon) > 0)
+            {
+			    printf("%s       \e[0;32mHomo sapiens\033[0m\n",taxon);
+            }
+            else
+            {
+                printf("\n", strlen(taxon));
+            }
+
 			free(namelist[k]);
 		}
 		
