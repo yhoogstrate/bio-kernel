@@ -49,31 +49,37 @@ int main(int argc, char *argv[])
 	else
 	{
 		int maxfilelen = 24;
+        int spaces;
 		
 		for(int k =0; k < n; k++)
 		{
+            spaces = maxfilelen;
+
+
 			char taxon[256 + 1];
 			taxon[0] = '\0';
 			i = getxattr(namelist[k]->d_name, "user.taxon", taxon, 256);
 			
 			
-			printf("%s", namelist[k]->d_name);
 			const int m = strlen(namelist[k]->d_name);
-			for(int l = maxfilelen - m; l > 0; l--)
-			{
-				printf(" ");
-			}
             
             if(strlen(taxon) > 0)
             {
-			    printf("%s       \e[0;32mHomo sapiens\033[0m\n",taxon);
-            }
-            else
-            {
-                printf("\n", strlen(taxon));
+			    printf("%s  \e[0;32mHomo sapiens\033[0m    ",taxon);
+                spaces -= 4+2+12+4;
             }
 
+            while(spaces > 0) 
+            {
+                printf(" ");
+                spaces--;
+            }
+
+			printf("%s", namelist[k]->d_name);
+
 			free(namelist[k]);
+
+            printf("\n");
 		}
 		
 		free(namelist);
