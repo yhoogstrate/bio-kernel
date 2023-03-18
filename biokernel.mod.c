@@ -25,7 +25,7 @@ MODULE_INFO(retpoline, "Y");
 static const struct modversion_info ____versions[]
 __used
 __attribute__((section("__versions"))) = {
-	{ 0x116c327, "module_layout" },
+	{ 0x8066b86b, "module_layout" },
 	{ 0x9b7fe4d4, "__dynamic_pr_debug" },
 	{ 0xbdfb6dbb, "__fentry__" },
 };
