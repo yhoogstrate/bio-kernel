@@ -1,5 +1,5 @@
 /bio
-build/*
+/utils/build/*
 .venv
 *.cmd
 *.o
@@ -8,3 +8,4 @@ build/*
 *.ko
 *.symvers
 .directory
+biokernel.mod/biokernel.mod
