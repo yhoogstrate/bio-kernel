@@ -1,0 +1,4 @@
+#pragma once
+
+#define BIOKERNEL_VERSION "@BIOKERNEL_VERSION@"
+#define COMPILE_DATE "@COMPILE_DATE@"

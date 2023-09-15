@@ -4,6 +4,7 @@ project('bio-kernel', 'c',
     default_options : ['warning_level=3', 'c_std=c11'])
 
 
+
 src = ['utils.c']
 
 
@@ -48,6 +49,17 @@ custom_target('biokernel',
 
 
 
+conf_data = configuration_data()
+conf_data.set('BIOKERNEL_VERSION', meson.project_version())
+conf_data.set('COMPILE_DATE', run_command('bash', '-c', 'date -u').stdout().strip())
+
+
+
+configure_file(
+  input : 'config.h.in',
+  output : 'config.h',
+  configuration : conf_data
+)
 
 
 
