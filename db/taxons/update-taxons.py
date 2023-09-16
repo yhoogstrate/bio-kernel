@@ -32,10 +32,9 @@ if md5 != cur_md5:
     wget.download(addr, ".")
 
 
-    with open("taxons", "w") as fh_w:
-        fh_w.write("# MD5 taxdump.tar.gz: " + md5 + "\n")
-
+    with open("taxons.tmp", "w") as fh_w:
         with tarfile.open("taxdump.tar.gz","r:gz") as tar:
+            n = 0
             for tarinfo in tar:
                 if(tarinfo.name == "names.dmp"):
                     f = tar.extractfile(tarinfo)
@@ -44,8 +43,20 @@ if md5 != cur_md5:
                         
                         if line[3] == 'scientific name':
                             fh_w.write(line[0] + "\t" + line[1] + "\n")
+                            n += 1
 
     os.remove('taxdump.tar.gz')
+    
+    with open("taxons.tmp", "r") as fh_r:
+        with open("taxons", "w") as fh_w:
+            fh_w.write("# MD5 taxdump.tar.gz: " + md5 + "\n")
+            fh_w.write("# n: "+str(n)+"\n")
+            
+            for line in tqdm(fh_r):
+                fh_w.write(line)
+    
+    os.remove("taxons.tmp")
+
 else:
     print("taxons is already up to date: " + cur_md5)
 

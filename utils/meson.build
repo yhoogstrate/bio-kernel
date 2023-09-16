@@ -5,7 +5,7 @@ project('bio-kernel', 'c',
 
 
 
-src = ['utils.c']
+src = ['utils.c', 'tax.c']
 
 
 
@@ -36,6 +36,15 @@ executable('rmtax',
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
+
+
+executable('service-index-taxons',
+    [src, 'service_index_taxons.c'],
+    include_directories : include_directories('.'),
+    dependencies: [],
+    install: true)
+
+
 
 
 kernel_version = run_command('uname', '-r').stdout().strip()
