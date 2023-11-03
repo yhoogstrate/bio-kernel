@@ -9,3 +9,4 @@
 *.symvers
 .directory
 biokernel.mod/biokernel.mod
+/build
