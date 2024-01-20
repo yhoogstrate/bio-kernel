@@ -43,6 +43,7 @@ void usage_chtax()
 	print_footer();
 }
 
+
 void usage_rmtax()
 {
 	printf("Usage: rmtax FILE...\n");
@@ -56,7 +57,6 @@ void usage_rmtax()
 	
 	print_footer();
 }
-
 
 
 
@@ -76,4 +76,14 @@ void usage_chtax_help()
 
 	exit(EXIT_FAILURE);
 }
+
+
+void usage_chref_help()
+{
+	printf("chref: missing operand\n");
+	printf("Try 'chref --help' for more information.\n");
+
+	exit(EXIT_FAILURE);
+}
+
 
