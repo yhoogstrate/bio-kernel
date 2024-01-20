@@ -49,12 +49,13 @@ executable('service-index-taxons',
 
 kernel_version = run_command('uname', '-r').stdout().strip()
 
-custom_target('biokernel',
-	input: ['super.c'],
-	command: ['touch', 'bk.ko'],
-	#command: ['make', '-C', '/lib/modules/'+kernel_version+ '/build' ,'M=$(PWD)', 'modules'],
-	output: 'biokernel.ko'
-	)
+
+#custom_target('biokernel',
+#	input: ['super.c'],
+#	command: ['touch', 'bk.ko'],
+#	#command: ['make', '-C', '/lib/modules/'+kernel_version+ '/build' ,'M=$(PWD)', 'modules'],
+#	output: 'biokernel.ko'
+#	)
 
 
 
