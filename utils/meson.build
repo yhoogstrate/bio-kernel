@@ -47,7 +47,9 @@ executable('service-index-taxons',
 
 
 
-kernel_version = run_command('uname', '-r').stdout().strip()
+kernel_version = run_command('uname', '-r',
+    check: true
+    ).stdout().strip()
 
 
 #custom_target('biokernel',
@@ -61,7 +63,7 @@ kernel_version = run_command('uname', '-r').stdout().strip()
 
 conf_data = configuration_data()
 conf_data.set('BIOKERNEL_VERSION', meson.project_version())
-conf_data.set('COMPILE_DATE', run_command('bash', '-c', 'date -u').stdout().strip())
+conf_data.set('COMPILE_DATE', run_command('bash', '-c', 'date -u' ,   check: true).stdout().strip())
 
 
 

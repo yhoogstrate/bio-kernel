@@ -10,42 +10,36 @@
 #include "utils.h"
 
 
-extern int alphasort(const void*,const void*);
+extern int alphasort(const void*, const void*);
 
 
 
 
-int rmtax(char* filename) 
+int rmtax(char* filename)
 {
-	// @todo only overwrite with --force enabled
-	int i;
-	i = removexattr( filename, "user.taxon");
-	return i;
+    // @todo only overwrite with --force enabled
+    int i;
+    i = removexattr(filename, "user.taxon");
+    return i;
 }
 
 
 int main(int argc, char *argv[])
 {
 
-	if(argc < 2)
-	{
-		usage_rmtax_help();
-	}
-	else if(argc == 2 & (strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0))
-	{
-		usage_rmtax();
-	}
-	else
-	{
-		for(int i = 1; i < argc; i++)
-		{
-			rmtax(argv[1]);
-		}
-	}
-	
-	
+    if(argc < 2) {
+        usage_rmtax_help();
+    } else if(argc == 2 & (strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0)) {
+        usage_rmtax();
+    } else {
+        for(int i = 1; i < argc; i++) {
+            rmtax(argv[1]);
+        }
+    }
 
-	
-	return 0;
+
+
+
+    return 0;
 }
 

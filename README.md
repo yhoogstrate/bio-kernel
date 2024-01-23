@@ -1,3 +1,13 @@
+___
+ _   _            _     _             _                        _                   _           _   
+| |_| |__   ___  | |__ (_) ___       | | _____ _ __ _ __   ___| |  _ __  _ __ ___ (_) ___  ___| |_ 
+| __| '_ \ / _ \ | '_ \| |/ _ \ _____| |/ / _ \ '__| '_ \ / _ \ | | '_ \| '__/ _ \| |/ _ \/ __| __|
+| |_| | | |  __/ | |_) | | (_) |_____|   <  __/ |  | | | |  __/ | | |_) | | | (_) | |  __/ (__| |_ 
+ \__|_| |_|\___| |_.__/|_|\___/      |_|\_\___|_|  |_| |_|\___|_| | .__/|_|  \___// |\___|\___|\__|
+                                                                  |_|           |__/               
+___
+
+
 bio-kernel
 ----------
 
@@ -5,7 +15,7 @@ bio-kernel
 Components:
  - bio-kerneld   [service with cached data and management]
  - biokernel.mod [kernel level interface / API]
- - bin/          [userspace level tools]
+ - utils/build/  [userspace level tools]
    * bio
    * lsb
    * chtax
