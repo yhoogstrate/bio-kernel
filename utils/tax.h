@@ -6,4 +6,7 @@
 typedef struct {
     unsigned int taxon;
     unsigned int file_pointer_db;
-} tax ;
+} tax;
+
+
+void print_tax(tax *);

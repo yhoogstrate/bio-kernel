@@ -38,8 +38,9 @@ int main(int argc, char *argv[])
             usage_chtax_help();
         }
     } else {
-        //validate tax
-        tax t = tax(argv[1]);
+        tax t;
+        t.taxon = 9606;
+        t.file_pointer_db = 456;
 
         for(int i = 2; i < argc; i++) {
             chtax(argv[i], argv[1]);
