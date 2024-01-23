@@ -4,8 +4,8 @@
 
 
 typedef struct {
-    unsigned int taxon;
-    unsigned int file_pointer_db;
+    unsigned int taxon; // taxon id
+    unsigned int file_pointer_db; // file location for reading string, preserves large amount of mem
 } tax;
 
 
