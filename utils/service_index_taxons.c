@@ -49,8 +49,12 @@ int main(int argc, char *argv[])
 
     ntax = 5;
     size_t i = 0;
+    size_t fp = 0;
     while(fgets(buffer, 1024, fptr) && i < ntax) {
         if(buffer[0] != '#') {
+            size_t linelen = strlen(buffer);
+            printf(" linelen: %i\n", linelen);
+
             printf("[%i] ", i);
 
             char *end1 = strstr(buffer, "\t");
@@ -60,11 +64,19 @@ int main(int argc, char *argv[])
 
             printf("{%s} ", buffer);
             printf("{%s} ", &end1[1]);
+            printf("{%i} ", fp + (&end1[1] - &buffer[0]) + 1);
 
             printf("\n");
 
             i++;
+            
+            fp += linelen;
         }
+        else
+        {
+            fp += strlen(buffer);
+        }
+        printf(" << %i >> \n", fp);
     }
 
 

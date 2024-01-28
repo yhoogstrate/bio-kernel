@@ -3,6 +3,7 @@
 
 
 
-void print_tax(tax *t) {
+void print_tax(tax *t)
+{
 }
 
