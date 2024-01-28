@@ -53,10 +53,6 @@ int main(int argc, char *argv[])
     while(fgets(buffer, 1024, fptr) && i < ntax) {
         if(buffer[0] != '#') {
             size_t linelen = strlen(buffer);
-            printf(" linelen: %i\n", linelen);
-
-            printf("[%i] ", i);
-
             char *end1 = strstr(buffer, "\t");
             char *end2 = strstr(buffer, "\n");
             *(end1) = '\0';
@@ -64,11 +60,15 @@ int main(int argc, char *argv[])
 
             printf("{%s} ", buffer);
             printf("{%s} ", &end1[1]);
-            printf("{%i} ", fp + (&end1[1] - &buffer[0]) + 1);
+            printf("{%u} ", fp + (&end1[1] - &buffer[0]) + 1);
 
             printf("\n");
+            
+            tax *t =  (tax *) malloc(sizeof( tax));
+            t->taxon = atoi(buffer);
+            t->file_pointer_db = fp + (&end1[1] - &buffer[0]) + 1;
 
-            i++;
+            taxon_list[i++] = t;
             
             fp += linelen;
         }
@@ -76,7 +76,6 @@ int main(int argc, char *argv[])
         {
             fp += strlen(buffer);
         }
-        printf(" << %i >> \n", fp);
     }
 
 
