@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 
             printf("{%s} ", buffer);
             printf("{%s} ", &end1[1]);
-            printf("{%u} ", fp + (&end1[1] - &buffer[0]) + 1);
+            printf("{%lu} ", fp + (&end1[1] - &buffer[0]) + 1);
 
             printf("\n");
             
@@ -69,6 +69,8 @@ int main(int argc, char *argv[])
             t->file_pointer_db = fp + (&end1[1] - &buffer[0]) + 1;
 
             taxon_list[i++] = t;
+            
+            print_tax(t);
             
             fp += linelen;
         }
