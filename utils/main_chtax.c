@@ -16,16 +16,6 @@ extern int alphasort(const void*, const void*);
 
 
 
-int chtax(char* filename, char* taxon)
-{
-    // @todo only overwrite with --force enabled
-    int i;
-    i = removexattr(filename, "user.taxon");
-    i = setxattr(filename, "user.taxon", taxon, 16, 0);
-    return i;
-}
-
-
 int main(int argc, char *argv[])
 {
 

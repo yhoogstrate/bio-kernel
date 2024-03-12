@@ -63,19 +63,17 @@ int main(int argc, char *argv[])
             printf("{%lu} ", fp + (&end1[1] - &buffer[0]) + 1);
 
             printf("\n");
-            
-            tax *t =  (tax *) malloc(sizeof( tax));
+
+            tax *t = (tax *) malloc(sizeof(tax));
             t->taxon = atoi(buffer);
             t->file_pointer_db = fp + (&end1[1] - &buffer[0]) + 1;
 
             taxon_list[i++] = t;
-            
+
             print_tax(t);
-            
+
             fp += linelen;
-        }
-        else
-        {
+        } else {
             fp += strlen(buffer);
         }
     }
