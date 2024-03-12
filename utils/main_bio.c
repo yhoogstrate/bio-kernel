@@ -6,7 +6,7 @@
 
 void usage_build_details()
 {
-    printf("bio v" BIOKERNEL_VERSION "\n");
+    printf("bio v" BIOKERNEL_VERSION " -- part of the βio-Кernel project\n");
     printf("build: " COMPILE_DATE  "\n");
 }
 
@@ -23,6 +23,8 @@ void usage_bio()
     printf("  rmtax          Remove taxonomy attribute\n");
     printf("  chref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)\n");
     printf("  rmref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)\n");
+    printf("  stats         \n ./config/uids.txt");
+    printf("  -E             Shows extended command list\n");
     printf("  -v, --version  Shows version and build info\n");
     printf("\n");
     printf("Extended command list:\n");
@@ -41,6 +43,14 @@ int main(int argc, char *argv[])
         usage_bio();
     } else {
         usage_build_details();
+        printf("\n");
+        printf("Copyright (C) 2019 Dr. Youri Hoogstrate\n");
+        printf("License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>.\n");
+        printf("This is free software: you are free to change and redistribute it.\n");
+        printf("There is NO WARRANTY, to the extent permitted by law.\n");
+        printf("\n");
+        printf("The βio-Кernel project is designed and written by Dr. Youri Hoogstrate.\n");
+        printf("https://github.com/yhoogstrate/bio-kernel/\n");
     }
 
 
