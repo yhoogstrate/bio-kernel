@@ -11,3 +11,4 @@
 biokernel.mod/biokernel.mod
 /build
 .Rhistory
+*.out
