@@ -1,4 +1,4 @@
-# βio-Кernel project Code of Conduct
+# The βio-Кernel project Code of Conduct
 
 This code of conduct outlines our expectations for participants within the
 βio-Кernel project (and derivative projects), as well as steps to reporting

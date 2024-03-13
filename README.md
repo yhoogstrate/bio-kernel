@@ -1,4 +1,4 @@
-bio-kernel
+The βio-Кernel project
 ----------
 
 ```
