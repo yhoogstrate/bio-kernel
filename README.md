@@ -1,6 +1,9 @@
 The βio-Кernel project
 ----------
 
+![bio-kernel](https://server.bh24.net/bio-kernel/assets/bio-kernel.png | height=240)
+
+
 ```
 Components:
  - bio-kerneld   [service with cached data and management]
