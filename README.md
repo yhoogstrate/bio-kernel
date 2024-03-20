@@ -1,7 +1,7 @@
 The βio-Кernel project
 ----------
 
-![bio-kernel](https://server.bh24.net/bio-kernel/assets/bio-kernel.png | height=240)
+<img src="https://server.bh24.net/bio-kernel/assets/bio-kernel.png" height="250">
 
 
 ```
