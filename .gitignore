@@ -15,3 +15,5 @@ biokernel.mod/biokernel.mod
 bio-kerneld/build/
 *.lock
 *.exe
+*.bam
+*.bai
