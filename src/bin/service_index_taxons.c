@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "config.h"
-#include "tax.h"
+#include "src/lib/tax.h"
 
 
 size_t tax_read_ntax()

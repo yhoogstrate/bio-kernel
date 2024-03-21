@@ -5,14 +5,14 @@ project('bio-kernel', 'c',
 
 
 
-src = ['utils.c', 'tax.c']
+lib_src = ['src/lib/utils.c', 'src/lib/tax.c']
 
 
 
 
 
 executable('bio',
-    [src, 'main_bio.c'],
+    [lib_src, 'src/bin/main_bio.c'],
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
@@ -20,26 +20,26 @@ executable('bio',
 
 
 executable('lsb',
-    [src, 'main_lsb.c'],
+    [lib_src, 'src/bin/main_lsb.c'],
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
 
 executable('chtax',
-    [src, 'main_chtax.c'], 
+    [lib_src, 'src/bin/main_chtax.c'], 
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
 
 executable('rmtax',
-    [src, 'main_rmtax.c'], 
+    [lib_src, 'src/bin/main_rmtax.c'], 
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
 
 
 executable('service-index-taxons',
-    [src, 'service_index_taxons.c'],
+    [lib_src, 'src/bin/service_index_taxons.c'],
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
@@ -68,7 +68,7 @@ conf_data.set('COMPILE_DATE', run_command('bash', '-c', 'date -u' ,   check: tru
 
 
 configure_file(
-  input : 'config.h.in',
+  input : 'src/config.h.in',
   output : 'config.h',
   configuration : conf_data
 )

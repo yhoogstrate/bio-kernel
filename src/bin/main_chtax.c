@@ -7,8 +7,8 @@
 #include <errno.h>
 
 
-#include "utils.h"
-#include "tax.h"
+#include "src/lib/utils.h"
+#include "src/lib/tax.h"
 
 
 extern int alphasort(const void*, const void*);
