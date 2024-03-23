@@ -51,22 +51,7 @@ meson install
 
 ### chtax
 
-```
-$ chtax 9606 hg38_mapped.bam
-$ lsb hg38_mapped.b*
-.
-..
-hg38_mapped.bam     9606    Homo spiens
-hg38_mapped.bam.bai 9606    Homo spiens
-
-$ rmtax hg38_mapped.b*
-$ lsb hg38_mapped.b*
-.
-..
-hg38_mapped.bam
-hg38_mapped.bam.bai
-```
-
+<img src="https://server.bh24.net/bio-kernel/assets/screenshot_001.png">
 
 
 ### lsb
