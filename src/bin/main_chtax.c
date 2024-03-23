@@ -14,18 +14,18 @@
 extern int alphasort(const void*, const void*);
 
 
-
+#define APPLICATION "chtax"
 
 int main(int argc, char *argv[])
 {
 
     if(argc < 2) {
-        usage_chtax_help();
+        usage_help(APPLICATION);
     } else if(argc == 2) {
         if((strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0)) {
             usage_chtax();
         } else {
-            usage_chtax_help();
+            usage_help(APPLICATION);
         }
     } else {
         tax t;

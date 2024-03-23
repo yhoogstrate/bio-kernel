@@ -37,6 +37,11 @@ executable('rmtax',
     dependencies: [],
     install: true)
 
+executable('chref',
+    [lib_src, 'src/bin/main_chref.c'], 
+    include_directories : include_directories('.'),
+    dependencies: [],
+    install: true)
 
 executable('service-index-taxons',
     [lib_src, 'src/bin/service_index_taxons.c'],

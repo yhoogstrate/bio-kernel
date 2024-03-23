@@ -29,7 +29,7 @@ void usage_lsb()
 
 void usage_chtax()
 {
-    printf("Usage: chtax [OPTION]... taxon-id FILE...\n");
+    printf("Usage: chtax [OPTION]... taxon-id [FILE]...\n");
     printf("  or:  chtax -r/--remove FILE... taxons:\n");
     printf("  or:  chtax -f/--force FILE... taxons:\n");
     printf("Change the taxon of each FILE to taxon-id (number).\n");
@@ -43,10 +43,9 @@ void usage_chtax()
     print_footer();
 }
 
-
 void usage_rmtax()
 {
-    printf("Usage: rmtax FILE...\n");
+    printf("Usage: rmtax [FILE]...\n");
     printf("Remove the taxon of each FILE.\n");
     printf("\n");
     printf("Examples:\n");
@@ -58,30 +57,27 @@ void usage_rmtax()
     print_footer();
 }
 
-
-
-
-void usage_rmtax_help()
+void usage_chref()
 {
-    printf("rmtax: missing operand\n");
-    printf("Try 'rmtax --help' for more information.\n");
-
-    exit(EXIT_FAILURE);
-}
-
-void usage_chtax_help()
-{
-    printf("chtax: missing operand\n");
-    printf("Try 'chtax --help' for more information.\n");
-
-    exit(EXIT_FAILURE);
+    printf("Usage: chref [OPTION]... reference-build-id [FILE]...\n");
+    printf("  or:  chref -r/--remove FILE... reference-build-id:\n");
+    printf("  or:  chref -f/--force FILE... reference-build-id:\n");
+    printf("Change the reference build of each FILE to reference-id (bio list ref).\n");
+    printf("\n");
+    printf("Examples:\n");
+    printf("  chref hg19 hg19.fa\n");
+    printf("  chref GRCh37.p1 alignment.bam alignment.bam.bai\n");
+    printf("\n");
+    printf("Taxons can be removed using: rmref\n");
+    printf("\n");
+    print_footer();
 }
 
 
-void usage_chref_help()
+void usage_help(char *cmd)
 {
-    printf("chref: missing operand\n");
-    printf("Try 'chref --help' for more information.\n");
+    printf("%s: missing operand\n", cmd);
+    printf("Try '%s --help' for more information.\n", cmd);
 
     exit(EXIT_FAILURE);
 }
