@@ -9,7 +9,7 @@
 
 
 #include "src/lib/utils.h"
-#include "src/lib/tax.h"
+#include "src/lib/db.h"
 
 
 extern int alphasort(const void*, const void*);
@@ -17,9 +17,12 @@ extern int alphasort(const void*, const void*);
 
 const char APPLICATION[] = "chref";
 
-
 int main(int argc, char *argv[])
 {
+	
+	
+	printf("[%i]\n", t9606.taxon);
+
 
     if(argc < 2) {
         usage_help(APPLICATION);
@@ -38,7 +41,6 @@ int main(int argc, char *argv[])
             chtax(argv[i], argv[1]);
         }
     }
-
 
     return 0;
 }

@@ -5,7 +5,7 @@ project('bio-kernel', 'c',
 
 
 
-lib_src = ['src/lib/utils.c', 'src/lib/tax.c']
+lib_src = ['src/lib/utils.c', 'src/lib/tax.c', 'src/lib/db.c']
 
 
 
