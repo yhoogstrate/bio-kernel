@@ -14,7 +14,7 @@
 extern int alphasort(const void*, const void*);
 
 
-#define APPLICATION "chtax"
+const char APPLICATION[] = "chtax";
 
 int main(int argc, char *argv[])
 {
@@ -36,8 +36,6 @@ int main(int argc, char *argv[])
             chtax(argv[i], argv[1]);
         }
     }
-
-
 
 
     return 0;

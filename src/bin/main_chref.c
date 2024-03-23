@@ -15,7 +15,8 @@
 extern int alphasort(const void*, const void*);
 
 
-#define APPLICATION "chref"
+const char APPLICATION[] = "chref";
+
 
 int main(int argc, char *argv[])
 {

@@ -14,3 +14,5 @@ void print_tax(tax *);
 
 
 int chtax(char* filename, char* tax);
+int rmtax(char* filename);
+

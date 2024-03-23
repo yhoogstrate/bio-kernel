@@ -8,22 +8,13 @@
 
 
 #include "src/lib/utils.h"
-
+#include "src/lib/tax.h"
 
 extern int alphasort(const void*, const void*);
 
 
 
-#define APPLICATION "rmtax"
-
-int rmtax(char* filename)
-{
-    // @todo only overwrite with --force enabled
-    int i;
-    i = removexattr(filename, "user.taxon");
-    return i;
-}
-
+const char APPLICATION[] = "rmtax";
 
 int main(int argc, char *argv[])
 {

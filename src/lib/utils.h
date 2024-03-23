@@ -13,4 +13,6 @@ void usage_rmtax();
 void usage_rmtax_help();
 
 
+void usage_help(const char *cmd);
+
 #endif

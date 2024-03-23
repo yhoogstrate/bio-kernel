@@ -74,7 +74,7 @@ void usage_chref()
 }
 
 
-void usage_help(char *cmd)
+void usage_help(const char *cmd)
 {
     printf("%s: missing operand\n", cmd);
     printf("Try '%s --help' for more information.\n", cmd);
