@@ -10,8 +10,7 @@ void print_footer()
 {
     printf("This software is free software\n");
     printf("Written and designed by Dr. Youri Hoogstrate\n");
-    printf("Contact the author at: y.hoogstrate <at> gmail {dot} com\n");
-    printf("bio-kernel online help: <https://github.com/yhoogstrate/bio-kernel>\n");
+    printf("The βio-Кernel project <https://github.com/yhoogstrate/bio-kernel>\n");
 }
 
 void usage_lsb()
@@ -53,7 +52,6 @@ void usage_rmtax()
     printf("\n");
     printf("Taxons can be set using: chtax\n");
     printf("\n");
-
     print_footer();
 }
 

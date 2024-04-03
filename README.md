@@ -49,7 +49,10 @@ ninja
 meson install
 ```
 
+<img src="https://server.bh24.net/bio-kernel/assets/screenshot_001.png">
+
 ### bio
+
 
 usage:
 ```
@@ -77,10 +80,31 @@ Run 'bio COMMAND --help' for more information on a command.
 
 ### chtax
 
-<img src="https://server.bh24.net/bio-kernel/assets/screenshot_001.png">
+```
+Usage: chtax [OPTION]... taxon-id [FILE]...
+  or:  chtax -r/--remove FILE... taxons:
+  or:  chtax -f/--force FILE... taxons:
+Change the taxon of each FILE to taxon-id (number).
+
+Examples:
+  chtax 9606 hg19.fa
+  chtax 9606 alignment.bam alignment.bam.bai
+
+Taxons can be removed using: rmtax
+```
 
 
 ### lsb
+
+```
+Usage: lsb [OPTION]... FILE...
+List files with bio-kernel implemented annotations such as taxon of each FILE.
+
+Examples:
+  lsb
+  lsb alignment.bam alignment.bam.bai
+  lsb -h alignment.bam alignment.bam.bai
+```
 
 ### rmtax
 
