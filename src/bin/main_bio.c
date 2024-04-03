@@ -16,21 +16,23 @@ void usage_bio()
     printf("Usage: bio [COMMAND]\n");
     printf("\n");
     printf("Commands:\n");
-    printf("  info           Small user guide\n");
-    printf("  ls             List file/direftory information with bio/taxonomy data\n");
-    printf("  list           List cached bio-kernel reference data\n");
+    printf("  ls             List file/direftory information with bio/taxonomy data\n\n");
+
+    printf("  info           Acquire info (e.g. source / GPG) about specific tax, ref or annotation\n");
+    printf("  list           List cached bio-kernel reference data\n\n");
+
     printf("  chtax          Change taxonomy attribute\n");
     printf("  rmtax          Remove taxonomy attribute\n");
     printf("  chref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)\n");
     printf("  rmref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)\n");
-    printf("  stats          Obtain stats about cache [./config/uids.txt]\n");
-    printf("  pull           Update a tax, ref or build\n");
+    printf("  pull           Update a tax, ref or build\n\n");
     printf("  -E             Shows extended command list\n");
     printf("  -v, --version  Shows version and build info\n");
     printf("\n");
     printf("Extended command list:\n");
     printf("  chbuild        Change reference build (e.g. hg18, hg19, GRCh37)\n");
     printf("  rmbuild        Change reference build (e.g. hg18, hg19, GRCh37)\n");
+    printf("  stats          Obtain stats (syscalls) about specific cached bio-kernel reference data\n");
     printf("\n");
     printf("Run 'bio COMMAND --help' for more information on a command.\n");
 

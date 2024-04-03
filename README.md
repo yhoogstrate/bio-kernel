@@ -64,21 +64,24 @@ usage:
 Usage: bio [COMMAND]
 
 Commands:
-  info           Small user guide
   ls             List file/direftory information with bio/taxonomy data
+
+  info           Acquire info (e.g. source / GPG) about specific tax, ref or annotation
   list           List cached bio-kernel reference data
+
   chtax          Change taxonomy attribute
   rmtax          Remove taxonomy attribute
   chref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)
   rmref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)
-  stats          Obtain stats about cache [./config/uids.txt]
-  pull           Update a given tax, ref or build
+  pull           Update a tax, ref or build
+
   -E             Shows extended command list
   -v, --version  Shows version and build info
 
 Extended command list:
   chbuild        Change reference build (e.g. hg18, hg19, GRCh37)
   rmbuild        Change reference build (e.g. hg18, hg19, GRCh37)
+  stats          Obtain stats (syscalls) about specific cached bio-kernel reference data
 
 Run 'bio COMMAND --help' for more information on a command.
 
