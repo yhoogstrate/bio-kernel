@@ -71,8 +71,8 @@ Commands:
   rmtax          Remove taxonomy attribute
   chref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)
   rmref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)
-  stats         
- ./config/uids.txt  -E             Shows extended command list
+  stats          Obtain stats about cache [./config/uids.txt]
+  -E             Shows extended command list
   -v, --version  Shows version and build info
 
 Extended command list:

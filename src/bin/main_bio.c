@@ -23,7 +23,7 @@ void usage_bio()
     printf("  rmtax          Remove taxonomy attribute\n");
     printf("  chref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)\n");
     printf("  rmref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)\n");
-    printf("  stats         \n ./config/uids.txt");
+    printf("  stats          Obtain stats about cache [./config/uids.txt]\n");
     printf("  -E             Shows extended command list\n");
     printf("  -v, --version  Shows version and build info\n");
     printf("\n");
