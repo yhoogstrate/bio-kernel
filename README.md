@@ -14,13 +14,15 @@ The βio-Кernel project aims to resolve the issues stated above by managing and
 
 ```
 Components:
- - bio-hub       [remote: compact webserver, defining data hierarchy and hosting data]
- - bio-kernel    [local: service with cached data and management - mounts to: /bio]
- - utils/build/  [local: userspace level tools]
+ - bio-hub     [remote: compact webserver, defining data hierarchy and hosting data]
+ - bio-kernel  [local: service with cached data and management - mounts to: /bio]
+ - utils:      [local: userspace level tools]
    * bio
    * lsb
    * chtax
    * rmtax
+   * chref
+   * rmref
 ```
 
 
@@ -48,6 +50,30 @@ meson install
 ```
 
 ### bio
+
+usage:
+```
+Usage: bio [COMMAND]
+
+Commands:
+  info           Small user guide
+  ls             List file/direftory information with bio/taxonomy data
+  list           List cached bio-kernel reference data
+  chtax          Change taxonomy attribute
+  rmtax          Remove taxonomy attribute
+  chref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)
+  rmref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)
+  stats         
+ ./config/uids.txt  -E             Shows extended command list
+  -v, --version  Shows version and build info
+
+Extended command list:
+  chbuild        Change reference build (e.g. hg18, hg19, GRCh37)
+  rmbuild        Change reference build (e.g. hg18, hg19, GRCh37)
+
+Run 'bio COMMAND --help' for more information on a command.
+
+```
 
 ### chtax
 
