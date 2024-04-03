@@ -24,6 +24,7 @@ void usage_bio()
     printf("  chref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)\n");
     printf("  rmref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)\n");
     printf("  stats          Obtain stats about cache [./config/uids.txt]\n");
+    printf("  pull           Update a tax, ref or build\n");
     printf("  -E             Shows extended command list\n");
     printf("  -v, --version  Shows version and build info\n");
     printf("\n");

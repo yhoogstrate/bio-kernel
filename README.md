@@ -72,6 +72,7 @@ Commands:
   chref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)
   rmref          Change reference sequence (e.g. hg19, GRCh37.p1, GRCh37.p2)
   stats          Obtain stats about cache [./config/uids.txt]
+  pull           Update a given tax, ref or build
   -E             Shows extended command list
   -v, --version  Shows version and build info
 
