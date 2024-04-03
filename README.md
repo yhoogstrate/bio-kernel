@@ -25,18 +25,14 @@ Components:
    * rmref
 ```
 
+Installation:
+---------
 
-## bio-hub:
-
-ongoing
-
-
-## bio-utils
-
-These are the core-utils equivalent tools needed to work with bio-kernel. You can build the tools, library and data stuctures by:
+You can build the tools, library and data stuctures by:
 
 ```
-cd utils
+git clone https://github.com/yhoogstrate/bio-kernel
+cd bio-kernel
 
 if test -f build ; then
   meson setup build --reconfigure  --prefix ~/.local/
@@ -48,6 +44,15 @@ cd build
 ninja
 meson install
 ```
+
+## bio-hub:
+
+ongoing
+
+
+## bio-utils
+
+These are the core-utils equivalent tools needed to work with bio-kernel.
 
 <img src="https://server.bh24.net/bio-kernel/assets/screenshot_001.png">
 
