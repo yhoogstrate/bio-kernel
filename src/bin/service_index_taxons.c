@@ -1,89 +1,74 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <search.h>
 #include "config.h"
 #include "src/lib/tax.h"
 
-
-size_t tax_read_ntax()
+static int tax_compare(const void *a, const void *b)
 {
-    FILE *fptr;
-    fptr = fopen("../db/taxons/taxons", "r");
-
-    char buffer[1024 + 1];
-    fgets(buffer, 1024, fptr);
-    fgets(buffer, 1024, fptr);
-    char *start = strstr(buffer, "# n: ");
-    char *end = strstr(buffer, "\n");
-    fclose(fptr);
-
-    size_t out = 0;
-
-    if(start != NULL && end != NULL) {
-        char *int_char = start + 5;
-        *(end) = '\0';
-
-        out = (size_t) atoi(int_char);
-    }
-
-
-
-    return out;
+    const tax *ta = (const tax *)a;
+    const tax *tb = (const tax *)b;
+    if (ta->taxon < tb->taxon) return -1;
+    if (ta->taxon > tb->taxon) return  1;
+    return 0;
 }
-
 
 int main(int argc, char *argv[])
 {
-    printf("loading file: ../db/taxons/taxons\n");
-    size_t ntax = tax_read_ntax();
-    printf("n: %i\n--\n", (unsigned int) ntax);
-
-
-    tax **taxon_list = malloc((ntax + 1) * sizeof(tax*));
-
-
-    FILE *fptr;
-    fptr = fopen("../db/taxons/taxons", "r");
-    char buffer[1024 + 1];
-
-    ntax = 5;
-    size_t i = 0;
-    size_t fp = 0;
-    while(fgets(buffer, 1024, fptr) && i < ntax) {
-        if(buffer[0] != '#') {
-            size_t linelen = strlen(buffer);
-            char *end1 = strstr(buffer, "\t");
-            char *end2 = strstr(buffer, "\n");
-            *(end1) = '\0';
-            *(end2) = '\0';
-
-            printf("{%s} ", buffer);
-            printf("{%s} ", &end1[1]);
-            printf("{%lu} ", fp + (&end1[1] - &buffer[0]) + 1);
-
-            printf("\n");
-
-            tax *t = (tax *) malloc(sizeof(tax));
-            t->taxon = atoi(buffer);
-            t->file_pointer_db = fp + (&end1[1] - &buffer[0]) + 1;
-
-            taxon_list[i++] = t;
-
-            print_tax(t);
-
-            fp += linelen;
-        } else {
-            fp += strlen(buffer);
-        }
+    FILE *f = fopen("db/taxons/taxons", "r");
+    if (f == NULL) {
+        fprintf(stderr, "error: could not open db/taxons/taxons\n");
+        return 1;
     }
 
+    printf("loading file: db/taxons/taxons\n");
 
-    fclose(fptr);
+    void *root = NULL;
+    char line[256];
 
+    while (fgets(line, sizeof(line), f)) {
+        if (line[0] == '#') continue;
 
+        unsigned int id;
+        if (sscanf(line, "%u", &id) != 1) continue;
 
+        char *tab = strchr(line, '\t');
+        if (tab == NULL) continue;
 
+        long offset = ftell(f) - (long)strlen(tab) + 1;
 
+        tax *entry = malloc(sizeof(tax));
+        if (entry == NULL) {
+            fprintf(stderr, "error: malloc failed\n");
+            fclose(f);
+            return 1;
+        }
+        entry->taxon = id;
+        entry->file_pointer_db = offset;
+
+        tsearch(entry, &root, tax_compare);
+    }
+
+    // lookup
+    unsigned int key_id = 7;
+    tax key = { .taxon = key_id, .file_pointer_db = 0 };
+    void **result = tfind(&key, &root, tax_compare);
+
+    if (result != NULL) {
+        tax *found = *(tax **)result;
+        printf("found taxon %u at file offset %lu\n", found->taxon, found->file_pointer_db);
+        fseek(f, found->file_pointer_db, SEEK_SET);
+        char name[256];
+        if (fgets(name, sizeof(name), f) != NULL) {
+            name[strcspn(name, "\n")] = '\0';
+            printf("name: %s\n", name);
+        }
+    } else {
+        printf("taxon %u not found\n", key_id);
+    }
+
+    fclose(f);
     return 0;
 }
+

@@ -1,5 +1,5 @@
 
-
+#include <assert.h>
 #include <errno.h> 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,9 +13,7 @@
 
 void print_tax(tax *t)
 {
-    if(t == NULL) {
-        exit(12);
-    }
+    assert(t != NULL);
 
     printf("tax: %i\nfile pointer: %lu\n\n", t->taxon, t->file_pointer_db);
 }
@@ -34,16 +32,13 @@ int chtax(const char *filename, const char *taxon)
 }
 
 
-int rmtax(char* filename)
+int rmtax(const char *filename)
 {
-    // @todo only overwrite with --force enabled
-    if(filename == NULL) {
+    if (filename == NULL) {
+        errno = EINVAL;
         return -1;
     }
-    
-    int result;
-    
-    result = removexattr(filename, "user.taxon");
-    
-    return result;
+    return removexattr(filename, "user.taxon");
 }
+
+

@@ -14,5 +14,5 @@ void print_tax(tax *);
 
 
 int chtax(const char* filename, const char* tax);
-int rmtax(char* filename);
+int rmtax(const char* filename);
 
