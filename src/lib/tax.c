@@ -28,7 +28,7 @@ int chtax(const char *filename, const char *taxon)
     }
     removexattr(filename, "user.taxon");
     
-    return setxattr(filename, "user.taxon", taxon, strlen(taxon), 0);
+    return setxattr(filename, "user.taxon", taxon, 16, 0);// set to 16 ensures it sets the right bits afterwards
 }
 
 
