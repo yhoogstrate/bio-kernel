@@ -1,15 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
 #include <errno.h>
-
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <errno.h>
-#include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <sys/un.h>
 #include <unistd.h>
 
@@ -24,8 +18,8 @@
 #define NAME_MAX_LEN  128
 #define TAXONS_FILE   "db/taxons/taxons"
 #define INDEX_FILE    "db/taxons/taxons.idx"
-#define BUF_SIZE    256
-#define BACKLOG     8
+#define BUF_SIZE      256
+#define BACKLOG       8
 
 
 // ---------------------------------------------------------------
@@ -64,7 +58,6 @@ int tax_build_index(const char *taxons_path, const char *index_path)
         return -1;
     }
 
-    // Pass 1: determine max taxon ID
     unsigned int max_id = tax_read_max_id(in);
     if (max_id == 0) {
         fprintf(stderr, "tax_build_index: no taxon IDs found\n");
@@ -73,7 +66,6 @@ int tax_build_index(const char *taxons_path, const char *index_path)
     }
     printf("tax_build_index: max taxon ID = %u\n", max_id);
 
-    // Allocate index zeroed out (0 = not present)
     size_t n_entries = (size_t)max_id + 1;
     off_t *index = calloc(n_entries, sizeof(off_t));
     if (index == NULL) {
@@ -105,14 +97,12 @@ int tax_build_index(const char *taxons_path, const char *index_path)
             continue;
         }
 
-        // offset points to the first character of the name
         index[id] = line_start + (off_t)(tab - line) + 1;
         line_start += (off_t)strlen(line);
     }
 
     fclose(in);
 
-    // Write index file: header (max_id) followed by entries
     FILE *out = fopen(index_path, "wb");
     if (out == NULL) {
         fprintf(stderr, "tax_build_index: could not open %s for writing: %s\n",
@@ -145,13 +135,11 @@ int tax_build_index(const char *taxons_path, const char *index_path)
 // Returns -1 if not found or on error.
 off_t tax_index_lookup(FILE *index_file, unsigned int id)
 {
-    // Read max_id from header
     rewind(index_file);
     unsigned int max_id;
     if (fread(&max_id, sizeof(unsigned int), 1, index_file) != 1) return -1;
     if (id > max_id) return -1;
 
-    // Entries start after the header
     long entry_offset = (long)sizeof(unsigned int) + (long)(id * sizeof(off_t));
     if (fseek(index_file, entry_offset, SEEK_SET) != 0) return -1;
 
@@ -162,6 +150,7 @@ off_t tax_index_lookup(FILE *index_file, unsigned int id)
     return offset;
 }
 
+
 // ---------------------------------------------------------------
 // LRU cache (256 entries, in memory)
 // Stores taxon id + name for recently looked up taxa.
@@ -169,17 +158,17 @@ off_t tax_index_lookup(FILE *index_file, unsigned int id)
 // ---------------------------------------------------------------
 
 typedef struct {
-    unsigned int taxon;
-    char name[NAME_MAX_LEN];
+    unsigned int  taxon;
+    char          name[NAME_MAX_LEN];
     unsigned long last_used;  // logical clock, higher = more recent
-    int valid;                // 0 = empty slot
+    int           valid;      // 0 = empty slot
 } tax_cache_entry;
 
 typedef struct {
     tax_cache_entry entries[CACHE_SIZE];
-    unsigned long clock;
-    FILE *taxons_file;
-    FILE *index_file;
+    unsigned long   clock;
+    FILE           *taxons_file;
+    FILE           *index_file;
 } tax_cache;
 
 tax_cache *tax_cache_open(const char *taxons_path, const char *index_path)
@@ -253,15 +242,19 @@ const char *tax_cache_lookup(tax_cache *c, unsigned int id)
     return c->entries[lru].name;
 }
 
-// Dispatch a parsed request and write the response to client_fd.
+
+// ---------------------------------------------------------------
+// Socket server
 // Protocol: "resource:id:field\n"
-// Response: null-terminated string, or "ERR:...\n" on failure.
+// Response: result string, or "ERR:...\n" on failure.
+// Access via: echo "tax:9606:name" | socat - UNIX-CONNECT:/tmp/bio-kernel.sock
+// ---------------------------------------------------------------
+
 static void handle_request(int client_fd, tax_cache *cache, char *buf)
 {
     char resource[32], field[32];
     unsigned int id;
 
-    // Strip trailing newline
     buf[strcspn(buf, "\n")] = '\0';
 
     if (sscanf(buf, "%31[^:]:%u:%31[^:]", resource, &id, field) != 3) {
@@ -271,11 +264,15 @@ static void handle_request(int client_fd, tax_cache *cache, char *buf)
 
     if (strcmp(resource, "tax") == 0) {
         if (strcmp(field, "name") == 0) {
+            printf("---\n");
             const char *name = tax_cache_lookup(cache, id);
+            printf("...\n");
             if (name == NULL || strlen(name) == 0) {
                 write(client_fd, "ERR:not found\n", 14);
             } else {
-                printf("response: %s\n", name);
+                
+                printf("[bio-kerneld] response: %s\n", name);
+                
                 write(client_fd, name, strlen(name));
                 write(client_fd, "\n", 1);
             }
@@ -287,30 +284,17 @@ static void handle_request(int client_fd, tax_cache *cache, char *buf)
     }
 }
 
-
-// access by: echo "tax:9606:name" | socat - UNIX-CONNECT:/tmp/bio-kernel.sock
-int main(void)
+static void self_test(void)
 {
-    // Step 1: build the disk index (two-pass: find max_id, then populate)
-    printf("=== building index ===\n");
-    if (tax_build_index(TAXONS_FILE, INDEX_FILE) != 0) {
-        fprintf(stderr, "failed to build index\n");
-        return 1;
-    }
-
-    // Step 2: open cache backed by disk index
-    printf("\n=== opening cache ===\n");
+    printf("=== cache lookups ===\n");
     tax_cache *cache = tax_cache_open(TAXONS_FILE, INDEX_FILE);
     if (cache == NULL) {
-        fprintf(stderr, "failed to open cache\n");
-        return 1;
+        fprintf(stderr, "self_test: failed to open cache\n");
+        return;
     }
 
-    // Step 3: test lookups via cache
-    printf("\n=== lookups ===\n");
     unsigned int test_ids[] = { 1, 2, 6, 7, 9, 10, 11, 13, 99999, 7 };
     size_t n = sizeof(test_ids) / sizeof(test_ids[0]);
-
     for (size_t i = 0; i < n; i++) {
         unsigned int id = test_ids[i];
         const char *name = tax_cache_lookup(cache, id);
@@ -320,75 +304,70 @@ int main(void)
             printf("taxon %6u => not found\n", id);
     }
 
-    // Step 4: show that second lookup for id=7 is a cache hit (no disk seek)
     printf("\n=== cache hit test (taxon 7 again) ===\n");
     const char *name = tax_cache_lookup(cache, 7);
     printf("taxon 7 => %s\n", name ? name : "not found");
 
     tax_cache_close(cache);
 
-    // Step 5: raw disk seek — bypass cache entirely, go straight to index
-    // and read the name directly from the taxons file
     printf("\n=== raw disk seek (no cache) ===\n");
     FILE *index_file  = fopen(INDEX_FILE,  "rb");
     FILE *taxons_file = fopen(TAXONS_FILE, "r");
-
     if (index_file == NULL || taxons_file == NULL) {
-        fprintf(stderr, "step 5: could not open files\n");
-        return 1;
+        fprintf(stderr, "self_test: could not open files\n");
+        return;
     }
 
     unsigned int raw_ids[] = { 2, 9, 13 };
     size_t raw_n = sizeof(raw_ids) / sizeof(raw_ids[0]);
-
     for (size_t i = 0; i < raw_n; i++) {
         unsigned int id = raw_ids[i];
-
         off_t offset = tax_index_lookup(index_file, id);
         if (offset < 0) {
             printf("taxon %6u => not found in index\n", id);
             continue;
         }
-
         printf("taxon %6u => index offset: %ld => ", id, (long)offset);
-
-        if (fseek(taxons_file, offset, SEEK_SET) != 0) {
-            printf("fseek failed\n");
-            continue;
-        }
-
+        if (fseek(taxons_file, offset, SEEK_SET) != 0) { printf("fseek failed\n"); continue; }
         char raw[NAME_MAX_LEN];
-        if (fgets(raw, sizeof(raw), taxons_file) == NULL) {
-            printf("fgets failed\n");
-            continue;
-        }
+        if (fgets(raw, sizeof(raw), taxons_file) == NULL) { printf("fgets failed\n"); continue; }
         raw[strcspn(raw, "\n")] = '\0';
         printf("%s\n", raw);
     }
 
     fclose(index_file);
     fclose(taxons_file);
-    
-    
-    /// now start a cache service
-    
-    // Open cache
-    tax_cache *cache2 = tax_cache_open(TAXONS_FILE, INDEX_FILE);
-    if (cache2 == NULL) {
-        fprintf(stderr, "taxd: failed to open cache\n");
+}
+
+
+// ---------------------------------------------------------------
+// Entry point
+// ---------------------------------------------------------------
+
+int main(void)
+{
+    printf("=== building index ===\n");
+    if (tax_build_index(TAXONS_FILE, INDEX_FILE) != 0) {
+        fprintf(stderr, "failed to build index\n");
         return 1;
     }
-    printf("taxd: cache open\n");
 
-    // Create Unix domain socket
+    self_test();
+
+    printf("\n=== starting server ===\n");
+    tax_cache *cache = tax_cache_open(TAXONS_FILE, INDEX_FILE);
+    if (cache == NULL) {
+        fprintf(stderr, "[bio-kerneld] failed to open cache\n");
+        return 1;
+    }
+
     int server_fd = socket(AF_UNIX, SOCK_STREAM, 0);
     if (server_fd < 0) {
-        fprintf(stderr, "taxd: socket: %s\n", strerror(errno));
-        tax_cache_close(cache2);
+        fprintf(stderr, "[bio-kerneld] socket: %s\n", strerror(errno));
+        tax_cache_close(cache);
         return 1;
     }
 
-    // Remove stale socket file if it exists
     unlink(SOCKET_PATH);
 
     struct sockaddr_un addr = {0};
@@ -396,26 +375,25 @@ int main(void)
     strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) - 1);
 
     if (bind(server_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-        fprintf(stderr, "taxd: bind: %s\n", strerror(errno));
+        fprintf(stderr, "[bio-kerneld] bind: %s\n", strerror(errno));
         close(server_fd);
-        tax_cache_close(cache2);
+        tax_cache_close(cache);
         return 1;
     }
 
     if (listen(server_fd, BACKLOG) < 0) {
-        fprintf(stderr, "taxd: listen: %s\n", strerror(errno));
+        fprintf(stderr, "[bio-kerneld] listen: %s\n", strerror(errno));
         close(server_fd);
-        tax_cache_close(cache2);
+        tax_cache_close(cache);
         return 1;
     }
 
-    printf("taxd: listening on %s\n", SOCKET_PATH);
+    printf("[bio-kerneld] listening on %s\n", SOCKET_PATH);
 
-    // Main accept loop
     while (1) {
         int client_fd = accept(server_fd, NULL, NULL);
         if (client_fd < 0) {
-            fprintf(stderr, "taxd: accept: %s\n", strerror(errno));
+            fprintf(stderr, "[bio-kerneld] accept: %s\n", strerror(errno));
             continue;
         }
 
@@ -427,15 +405,15 @@ int main(void)
         }
         buf[n] = '\0';
 
-        printf("taxd: request: %s\n", buf);
-        handle_request(client_fd, cache2, buf);
-
+        printf("[bio-kerneld] request:  [%s]\n", buf);
+        printf("::::\n");
+        handle_request(client_fd, cache, buf);
+        printf("????\n");
         close(client_fd);
     }
 
     close(server_fd);
     unlink(SOCKET_PATH);
-    tax_cache_close(cache2);
+    tax_cache_close(cache);
     return 0;
 }
-

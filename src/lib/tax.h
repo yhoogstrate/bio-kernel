@@ -1,7 +1,9 @@
 
 
-#define TAX_DB "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz";
-#define SOCKET_PATH "/tmp/bio-kernel.sock"
+#define TAX_DB        "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz";
+#define SOCKET_PATH   "/tmp/bio-kernel.sock"
+#define TAXONS_FILE   "db/taxons/taxons"
+#define INDEX_FILE    "db/taxons/taxons.idx"
 
 typedef struct {
     unsigned int taxon; // taxon id
