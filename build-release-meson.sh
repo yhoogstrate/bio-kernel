@@ -2,7 +2,7 @@
 
 #mkdir -p build
 
-if test -f build ; then
+if test -d build ; then
   meson setup build --reconfigure  --prefix ~/.local/
 else
   meson setup build  --prefix ~/.local/

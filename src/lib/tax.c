@@ -1,6 +1,11 @@
 
+
+#include <errno.h> 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/xattr.h>
+
 
 #include "tax.h"
 
@@ -17,16 +22,17 @@ void print_tax(tax *t)
 
 
 
-
-int chtax(char* filename, char* taxon)
+int chtax(const char *filename, const char *taxon)
 {
-    // @todo only overwrite with --force enabled
-    int i;
-    i = removexattr(filename, "user.taxon");
-    i = setxattr(filename, "user.taxon", taxon, 16, 0);
-    return i;
-
+    if (filename == NULL || taxon == NULL) {
+        errno = EINVAL;
+        return -1;
+    }
+    removexattr(filename, "user.taxon");
+    
+    return setxattr(filename, "user.taxon", taxon, strlen(taxon), 0);
 }
+
 
 int rmtax(char* filename)
 {

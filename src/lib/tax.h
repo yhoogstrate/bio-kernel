@@ -13,6 +13,6 @@ void print_tax(tax *);
 
 
 
-int chtax(char* filename, char* tax);
+int chtax(const char* filename, const char* tax);
 int rmtax(char* filename);
 
