@@ -13,7 +13,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 
-//#include "tax_lru.c"   // reuse the index + cache we already built
+#include "../lib/tax.h"
 
 
 // ---------------------------------------------------------------
@@ -24,9 +24,7 @@
 #define NAME_MAX_LEN  128
 #define TAXONS_FILE   "db/taxons/taxons"
 #define INDEX_FILE    "db/taxons/taxons.idx"
-
 #define BUF_SIZE    256
-#define SOCKET_PATH "/run/bio-kernel.sock"
 #define BACKLOG     8
 
 
@@ -277,6 +275,7 @@ static void handle_request(int client_fd, tax_cache *cache, char *buf)
             if (name == NULL || strlen(name) == 0) {
                 write(client_fd, "ERR:not found\n", 14);
             } else {
+                printf("response: %s\n", name);
                 write(client_fd, name, strlen(name));
                 write(client_fd, "\n", 1);
             }
@@ -289,7 +288,7 @@ static void handle_request(int client_fd, tax_cache *cache, char *buf)
 }
 
 
-
+// access by: echo "tax:9606:name" | socat - UNIX-CONNECT:/tmp/bio-kernel.sock
 int main(void)
 {
     // Step 1: build the disk index (two-pass: find max_id, then populate)

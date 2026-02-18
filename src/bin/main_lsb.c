@@ -8,6 +8,7 @@
 
 
 #include "src/lib/utils.h"
+#include "src/lib/tax.h"
 
 
 extern int alphasort(const void*, const void*);
@@ -51,10 +52,20 @@ int main(int argc, char *argv[])
 
 
             const int m = strlen(namelist[k]->d_name);
-
+            
+            /*
             if(strlen(taxon) > 0) {
                 printf("%s  \e[0;32mHomo sapiens\033[0m    ", taxon);
                 spaces -= 4 + 2 + 12 + 4;
+            }
+            */
+            if (strlen(taxon) > 0) {
+                const char *name = lookup_tax_name(taxon);
+                if (name != NULL)
+                    printf("%s  \e[0;32m%s\033[0m    ", taxon, name);
+                else
+                    printf("%s  \e[0;32munknown\033[0m    ", taxon);
+                spaces -= 4 + 2 + strlen(name) + 4;
             }
 
             while(spaces > 0) {
