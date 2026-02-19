@@ -56,12 +56,10 @@ int rmtax(const char *filename)
 // Returns NULL on failure.
 const char *lookup_tax_name(const char *taxon_id)
 {
-    
     static char response[128];
 
-
     int fd = socket(AF_UNIX, SOCK_STREAM, 0);
-
+    
     if (fd < 0)
     {
         return NULL;
@@ -70,7 +68,7 @@ const char *lookup_tax_name(const char *taxon_id)
 
     struct sockaddr_un addr = {0};
     addr.sun_family = AF_UNIX;
-
+    
     strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) - 1);
 
 
@@ -80,7 +78,7 @@ const char *lookup_tax_name(const char *taxon_id)
         return NULL;
     }
 
-
+    
 
     char request[64];
     snprintf(request, sizeof(request), "tax:%s:name\n", taxon_id);
@@ -92,11 +90,17 @@ const char *lookup_tax_name(const char *taxon_id)
     close(fd);
 
 
-    if (n <= 0) return NULL;
+    if (n <= 0)
+    {
+         return NULL;
+    }
     response[n] = '\0';
     response[strcspn(response, "\n")] = '\0';
 
-    if (strncmp(response, "ERR:", 4) == 0) return NULL;
+    if(strncmp(response, "ERR:", 4) == 0)
+    {
+        return NULL;
+    }
 
 
 

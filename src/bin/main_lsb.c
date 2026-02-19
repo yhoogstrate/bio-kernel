@@ -62,10 +62,28 @@ int main(int argc, char *argv[])
             if (strlen(taxon) > 0) {
                 const char *name = lookup_tax_name(taxon);
                 if (name != NULL)
-                    printf("%s  \e[0;32m%s\033[0m    ", taxon, name);
+                {
+                    #define TAXON_NAME_MAXLEN 22
+
+                    char name_display[TAXON_NAME_MAXLEN + 1];
+                    if (strlen(name) > TAXON_NAME_MAXLEN) {
+                        strncpy(name_display, name, TAXON_NAME_MAXLEN - 2);
+                        name_display[TAXON_NAME_MAXLEN - 2] = '\0';
+                        strcat(name_display, "..");
+                    } else {
+                        strncpy(name_display, name, TAXON_NAME_MAXLEN);
+                        name_display[TAXON_NAME_MAXLEN] = '\0';
+                    }
+                    printf("%s  \e[0;32m%s\033[0m  ", taxon, name_display);
+
+                    spaces -= 4 + 2 + strlen(name) + 4;
+                }
                 else
-                    printf("%s  \e[0;32munknown\033[0m    ", taxon);
-                spaces -= 4 + 2 + strlen(name) + 4;
+                {
+                    printf("%s  \e[0;31mUnknown\033[0m  ", taxon);
+                    spaces -= 4 + 2 + 7 + 4;
+                }
+                
             }
 
             while(spaces > 0) {
