@@ -33,38 +33,37 @@ int main(int argc, char *argv[])
     } else {
         n = scandir(argv[1], &namelist, NULL, alphasort);
     }
-
+    
+    
 
     if(n < 0) {
         perror("scandir");
         exit(EXIT_FAILURE);
     } else {
-        int maxfilelen = 24;
-        int spaces;
+        #define TAXON_NAME_MAXLEN 18
 
-        for(int k = 0; k < n; k++) {
-            spaces = maxfilelen;
+        // First pass: find max taxon length for column width (minimum 4)
+        int max_taxon_len = 4;
+        for (int k = 0; k < n; k++) {
+            char taxon[256 + 1];
+            taxon[0] = '\0';
+            getxattr(namelist[k]->d_name, "user.taxon", taxon, 256);
+            int tlen = strlen(taxon);
+            if (tlen > max_taxon_len) max_taxon_len = tlen;
+        }
 
-
+        // Second pass: print
+        for (int k = 0; k < n; k++) {
             char taxon[256 + 1];
             taxon[0] = '\0';
             i = getxattr(namelist[k]->d_name, "user.taxon", taxon, 256);
 
-
-            const int m = strlen(namelist[k]->d_name);
-            
-            /*
-            if(strlen(taxon) > 0) {
-                printf("%s  \e[0;32mHomo sapiens\033[0m    ", taxon);
-                spaces -= 4 + 2 + 12 + 4;
-            }
-            */
             if (strlen(taxon) > 0) {
-                const char *name = lookup_tax_name(taxon);
-                if (name != NULL)
-                {
-                    #define TAXON_NAME_MAXLEN 22
+                // Print taxon, padded to column width
+                printf("%-*s  ", max_taxon_len, taxon);
 
+                const char *name = lookup_tax_name(taxon);
+                if (name != NULL) {
                     char name_display[TAXON_NAME_MAXLEN + 1];
                     if (strlen(name) > TAXON_NAME_MAXLEN) {
                         strncpy(name_display, name, TAXON_NAME_MAXLEN - 2);
@@ -74,30 +73,18 @@ int main(int argc, char *argv[])
                         strncpy(name_display, name, TAXON_NAME_MAXLEN);
                         name_display[TAXON_NAME_MAXLEN] = '\0';
                     }
-                    printf("%s  \e[0;32m%s\033[0m  ", taxon, name_display);
-
-                    spaces -= 4 + 2 + strlen(name) + 4;
+                    printf("\e[0;32m%-*s\033[0m  ", TAXON_NAME_MAXLEN, name_display);
+                } else {
+                    printf("\e[0;31m%-*s\033[0m  ", TAXON_NAME_MAXLEN, "Unknown");
                 }
-                else
-                {
-                    printf("%s  \e[0;31mUnknown\033[0m  ", taxon);
-                    spaces -= 4 + 2 + 7 + 4;
-                }
-                
+            } else {
+                // No taxon: print blank columns
+                printf("%-*s  %-*s  ", max_taxon_len, "", TAXON_NAME_MAXLEN, "");
             }
 
-            while(spaces > 0) {
-                printf(" ");
-                spaces--;
-            }
-
-            printf("%s", namelist[k]->d_name);
-
+            printf("%s\n", namelist[k]->d_name);
             free(namelist[k]);
-
-            printf("\n");
         }
-
         free(namelist);
     }
 
