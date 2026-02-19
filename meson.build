@@ -44,7 +44,7 @@ executable('chgenome',
     install: true)
 
 executable('chref',
-    [lib_src, 'src/bin/main_chref.c'], 
+    [lib_src, 'src/bin/main_channo.c'], 
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
