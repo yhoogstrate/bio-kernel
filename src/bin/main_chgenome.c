@@ -7,15 +7,16 @@
 #include <errno.h>
 
 
-#include "utils.h"
+#include "src/lib/utils.h"
+#include "src/lib/tax.h"
 
 
 extern int alphasort(const void*, const void*);
 
 
+const char APPLICATION[] = "chgenome";
 
-
-int chref(char* filename, char* taxon, char *reference)
+int chgenome(char* filename, char* taxon, char *reference)
 {
     // @todo only overwrite with --force enabled
     int i;
@@ -29,19 +30,19 @@ int main(int argc, char *argv[])
 {
 
     if(argc < 2) {
-        usage_chtax_help();
+        usage_help(APPLICATION);
     } else if(argc == 2) {
         if((strcmp(argv[1], "--help") == 0) | (strcmp(argv[1], "-h") == 0)) {
-            usage_chtax();
+            usage_chgenome();
         } else {
-            usage_chref_help();
+            usage_help(APPLICATION);
         }
     } else {
         //validate tax
         //taxon tax = taxon(argv[1]);
 
         for(int i = 2; i < argc; i++) {
-            chref(argv[i], argv[1]);
+            chtax(argv[i], argv[1]);
         }
     }
 

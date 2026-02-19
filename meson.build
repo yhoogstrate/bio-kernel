@@ -37,17 +37,31 @@ executable('rmtax',
     dependencies: [],
     install: true)
 
+executable('chgenome',
+    [lib_src, 'src/bin/main_chgenome.c'], 
+    include_directories : include_directories('.'),
+    dependencies: [],
+    install: true)
+
 executable('chref',
     [lib_src, 'src/bin/main_chref.c'], 
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
 
-executable('service-index-taxons',
-    [lib_src, 'src/bin/service_index_taxons.c'],
+executable('bio-kerneld',
+    [lib_src, 'src/bin/bio-kerneld.c'],
     include_directories : include_directories('.'),
     dependencies: [],
     install: true)
+
+test_taxons = executable('test-taxons',
+    'tests/test_taxons.c',
+    include_directories : include_directories('.'),
+    dependencies: [])
+
+test('taxons', test_taxons,
+    workdir : meson.project_source_root())
 
 
 

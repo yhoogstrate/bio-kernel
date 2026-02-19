@@ -55,6 +55,35 @@ void usage_rmtax()
     print_footer();
 }
 
+void usage_chgenome()
+{
+    printf("Usage: chgenome [OPTION]... genomeon-id [FILE]...\n");
+    printf("  or:  chgenome -r/--remove FILE... genomeons:\n");
+    printf("  or:  chgenome -f/--force FILE... genomeons:\n");
+    printf("Change the genomeon of each FILE to genomeon-id (number).\n");
+    printf("\n");
+    printf("Examples:\n");
+    printf("  chgenome hg19 hg19.fa\n");
+    printf("  chgenome hg19 alignment.bam alignment.bam.bai\n");
+    printf("\n");
+    printf("Taxons can be removed using: rmgenome\n");
+    printf("\n");
+    print_footer();
+}
+
+void usage_rmgenome()
+{
+    printf("Usage: rmgenome [FILE]...\n");
+    printf("Remove the genomeon of each FILE.\n");
+    printf("\n");
+    printf("Examples:\n");
+    printf("  rmgenome alignment.bam alignment.bam.bai\n");
+    printf("\n");
+    printf("Taxons can be set using: chgenome\n");
+    printf("\n");
+    print_footer();
+}
+
 void usage_chref()
 {
     printf("Usage: chref [OPTION]... reference-build-id [FILE]...\n");

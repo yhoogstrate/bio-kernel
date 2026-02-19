@@ -1,20 +1,16 @@
+#ifndef TAX_H
+#define TAX_H
 
-
-#define TAX_DB        "ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz";
-#define SOCKET_PATH   "/tmp/bio-kernel.sock"
-#define TAXONS_FILE   "db/taxons/taxons"
-#define INDEX_FILE    "db/taxons/taxons.idx"
+#define SOCKET_PATH "/tmp/bio-kernel.sock"
 
 typedef struct {
-    unsigned int taxon; // taxon id
-    long unsigned int file_pointer_db; // file location for reading string, preserves large amount of mem
+    unsigned int      taxon;           // taxon id
+    long unsigned int file_pointer_db; // file offset for name string
 } tax;
 
-
-void print_tax(tax *);
-
-
-
-int chtax(const char* filename, const char* tax);
-int rmtax(const char* filename);
+void        print_tax(tax *t);
+int         chtax(const char *filename, const char *taxon);
+int         rmtax(const char *filename);
 const char *lookup_tax_name(const char *taxon_id);
+
+#endif
