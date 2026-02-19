@@ -264,10 +264,10 @@ static void handle_request(int client_fd, tax_cache *cache, char *buf)
 
     if (strcmp(resource, "tax") == 0) {
         if (strcmp(field, "name") == 0) {
-            printf("---\n");
             const char *name = tax_cache_lookup(cache, id);
-            printf("...\n");
             if (name == NULL || strlen(name) == 0) {
+                printf("[bio-kerneld] NO response\n");
+                
                 write(client_fd, "ERR:not found\n", 14);
             } else {
                 
@@ -405,10 +405,9 @@ int main(void)
         }
         buf[n] = '\0';
 
-        printf("[bio-kerneld] request:  [%s]\n", buf);
-        printf("::::\n");
+        buf[strcspn(buf, "\n")] = '\0';
+        printf("[bio-kerneld] request:  %s\n", buf);
         handle_request(client_fd, cache, buf);
-        printf("????\n");
         close(client_fd);
     }
 
